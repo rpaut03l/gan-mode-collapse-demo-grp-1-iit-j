@@ -84,7 +84,7 @@ This matters for academic integrity and for the inevitable "is this a real model
 | **Collapse run** | `C` | Sets the demo to the *failing* scenario: as epochs advance, the generator narrows onto one digit. | Default; the main story. |
 | **Healthy run** | `H` | Sets the demo to the *working* scenario: the generator keeps producing all ten digits no matter how far you train. | To contrast "good vs bad" side by side. |
 | **Play / Pause** | `space` | Auto-advances training epoch by epoch so the grid animates. Pressing again pauses. | During the detection section — press Play and let it collapse. |
-| **Reveal the fix** | `F` | Simulates applying a fix (minibatch discrimination / WGAN-GP / PacGAN). The collapsed cells re-diversify and coverage climbs back to 10/10. | During the fixes section — the payoff moment. |
+| **Apply a fix** | `1` `2` `3` | Three buttons, each applies a fix and explains the technique: `1` = **WGAN** (loss fix), `2` = **minibatch discrimination**, `3` = **unrolled GAN** (both structural). The collapsed cells re-diversify and coverage climbs back to 10/10. | Sharvan presses `1` (loss fix); Pujan presses `2` (structural fix). |
 | **Epoch slider** | `← →` | Manually scrub to any point in training. Lets you pause exactly on the moment of collapse. | To freeze on a dramatic frame, or step slowly. |
 | **Reset** | `R` | Clears the fix, returns to epoch 0, and re-seeds the grid with fresh samples. | Before each run / between rehearsals. |
 
@@ -128,9 +128,11 @@ Consistent rule: **violet = generator, cyan = discriminator, orange = the proble
 <a id="narrate"></a>
 ## 7. How to narrate the demo (tie-in to the talk)
 
-- **Disha (detection):** press **Play** on a Collapse run. "Early on the animals are varied — coverage near 10/10. As we train, watch cells turn orange and every one become a cat — coverage falls toward 1/10. Same output for very different inputs — that's collapse."
-- **Pujan (fixes):** press **Reveal the fix**. "Applying minibatch discrimination, the generator covers all modes again and coverage climbs back."
-- **If asked to compare:** press **Healthy run** to show the generator that never collapses, then back to **Collapse run**.
+- **Rohit (what breaks):** press **Play** on a Collapse run and let it finish. "Early on the animals are varied — coverage near 10/10. As we train, watch cells turn orange and every one become a cat — coverage falls toward 1/10. Same output for very different inputs — that's collapse." Leave it collapsed.
+- **Sharvan (loss fix):** press **`1`** (WGAN). "The loss fix: switching to the Wasserstein distance gives a real gradient again, so the generator recovers all the modes."
+- **Disha (diagnosis):** press **`R`** then scrub the slider to ~110. "The loss just wobbles and looks fine — that's deceptive. The honest signals are coverage at 1/10 and a high FID."
+- **Pujan (structural fix):** press **`2`** (minibatch discrimination). "A structural fix recovers diversity without touching the loss."
+- **If asked to compare:** press **Healthy run** to show a generator that never collapses, then back to **Collapse run**.
 
 [Back to top](#top)
 
@@ -159,15 +161,20 @@ Consistent rule: **violet = generator, cyan = discriminator, orange = the proble
 | Question | Short answer |
 |---|---|
 | How do you detect it? | Eyeball the samples, count how many classes appear, "walk" the noise (big input change, tiny output change = collapse), and check metrics. |
-| What metrics? | FID (lower better), Inception Score, precision/recall for GANs, and mode coverage. |
+| Why can't you just watch the loss? | The training loss is deceptive — GAN losses oscillate, and a collapsed generator can still show a normal-looking loss. Judge diversity, not the loss. |
+| What metrics? | FID (lower better), Inception Score (higher better), precision/recall for GANs, and mode coverage. |
+| IS vs FID? | IS rewards images that are sharp and diverse (higher better); FID compares fakes to real data and catches collapse because diversity drops (lower better, the modern default). |
 | What is mode coverage (in the demo)? | The count of distinct data modes the generator actually produces — here, distinct animals out of 10. |
 
 ### About fixes
 | Question | Short answer |
 |---|---|
-| How do you fix it? | Minibatch discrimination, WGAN / WGAN-GP, PacGAN, feature matching, unrolled GAN. |
-| What is minibatch discrimination? | Letting the discriminator look at a whole batch at once so it can detect and punish lack of variety. |
-| Why does WGAN help? | It uses the Wasserstein distance, which gives smoother, non-vanishing gradients and is more robust to collapse. |
+| How do you fix it? | Two routes: a <b>loss fix</b> (WGAN / Earth Mover's distance) or <b>structural fixes</b> (minibatch discrimination, unrolled GAN, PacGAN, feature matching). |
+| Why does JSD cause collapse? | The original loss minimises Jensen–Shannon divergence. When the fake and real distributions barely overlap (what happens at collapse), JSD is almost constant, so its gradient is nearly zero — the generator gets no signal to spread out. |
+| What is the Earth Mover's / Wasserstein distance? | The minimum "cost" of moving probability mass to turn one distribution into the other. It varies smoothly even with no overlap, so it gives a usable gradient everywhere — the basis of WGAN. |
+| What is minibatch discrimination? | Letting the discriminator compare samples across a whole batch so it can detect and punish lack of variety. |
+| What is an unrolled GAN? | The generator trains against several look-ahead steps of the discriminator, so it can't exploit the current discriminator by collapsing onto one mode. |
+| Why does WGAN help? | The Wasserstein distance gives smoother, non-vanishing gradients and is more robust to collapse. The critic must be 1-Lipschitz (weight clipping, or gradient penalty in WGAN-GP). |
 | Does WGAN fully solve it? | It reduces it and is more robust, but it's not a guaranteed cure. |
 | Simplest fix to try first? | Minibatch discrimination, or switch the loss to WGAN-GP. |
 
@@ -179,7 +186,7 @@ Consistent rule: **violet = generator, cyan = discriminator, orange = the proble
 | Why does it collapse to a cat? | Arbitrary collapse target — a real collapse can land on any mode. It also nods to the analogy of a student who only ever draws a cat. |
 | What does the epoch slider do? | Scrubs through training so we can pause on any moment, including the instant of collapse. |
 | Why do the losses wobble instead of going to zero? | GAN training is a two-player game, so losses oscillate rather than converge — that's expected, not a bug. |
-| What does "Reveal the fix" actually represent? | Applying a diversity-promoting fix (e.g. minibatch discrimination); diversity returns and coverage recovers. |
+| What do the three fix buttons represent? | `1` applies WGAN (the loss fix), `2` minibatch discrimination and `3` unrolled GAN (structural fixes); each shows the technique and recovers coverage. |
 
 ### Metrics / light maths
 | Question | Short answer |
@@ -235,11 +242,11 @@ So nobody freezes, each person is the first responder for their area (Pujan rout
 
 | Member | Owns questions about |
 |---|---|
-| **Jeenal** | What a GAN is, applications |
-| **Rohit** | What collapse is, the mechanism, "is the demo real?" |
-| **Sharvan** | Why it happens, overfitting vs collapse, vanishing gradient |
-| **Disha** | Detection, metrics, mode coverage |
-| **Pujan** | Fixes, GAN vs VAE/diffusion, the takeaway, routing Q&A |
+| **Jeenal** | What a GAN is, the two-player game, Nash equilibrium |
+| **Rohit** | What collapse is, the mechanism, complete vs partial, "is the demo real?" |
+| **Sharvan** | The loss math, why JSD fails, WGAN / Earth Mover's distance |
+| **Disha** | Detection, deceptive loss, IS & FID, mode coverage |
+| **Pujan** | Structural fixes (minibatch discrimination, unrolled GAN), the summary, routing Q&A |
 
 [Back to top](#top)
 
