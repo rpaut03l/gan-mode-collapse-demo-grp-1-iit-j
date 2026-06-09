@@ -1,6 +1,6 @@
 # Mode Collapse Presentation — Addendum (Applications, Differentiator Demo, Mechanism Visual, Trained-Model Demo)
 
-Extends the main plan. Covers your four points and gives slide specs + a block to append to the Kimi PDF prompt.
+Extends the main plan. Covers your four points and gives slide specs + a block to append to the PDF.
 
 ---
 
