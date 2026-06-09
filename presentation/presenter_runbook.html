@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presenter Runbook — Mode Collapse in GANs</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F5F7; --card:#FFFFFF; --text:#1D1D1F; --muted:#86868B; --hair:rgba(0,0,0,0.09);
+    --blue:#0071E3; --gen:#5E5CE6; --disc:#32ADE6; --warn:#FF9F0A; --ok:#34C759; --pink:#FF2D55;
+    --font:-apple-system,"SF Pro Display","Inter",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
+       -webkit-font-smoothing:antialiased;line-height:1.55;padding:48px 0}
+  .wrap{max-width:880px;margin:0 auto;padding:0 36px}
+  .hero{background:linear-gradient(135deg,#fff 0%,#fafaff 100%);border:1px solid var(--hair);
+        border-radius:24px;padding:34px 36px;margin-bottom:30px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+  .eyebrow{font-size:13px;font-weight:600;color:var(--blue);letter-spacing:0.04em;text-transform:uppercase}
+  h1{font-weight:700;font-size:36px;letter-spacing:-0.03em;margin:8px 0 6px}
+  .lede{color:var(--muted);font-size:17px;margin:0}
+  h2{font-weight:600;font-size:22px;letter-spacing:-0.01em;margin:36px 0 14px}
+  .card{background:var(--card);border:1px solid var(--hair);border-radius:20px;padding:22px 26px;margin-bottom:16px;
+        box-shadow:0 1px 3px rgba(0,0,0,0.05);position:relative;overflow:hidden}
+  .card.p::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent,var(--gen))}
+  .who{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:16px;
+      color:#fff;background:var(--accent,var(--gen));flex-shrink:0}
+  .name{font-weight:600;font-size:19px}
+  .role{font-size:13px;color:var(--muted)}
+  .time{margin-left:auto;font-size:13px;color:var(--muted);text-align:right}
+  ul{margin:8px 0 0;padding-left:20px} li{margin:6px 0}
+  .cue{background:rgba(0,113,227,0.06);border:1px solid rgba(0,113,227,0.22);border-radius:12px;padding:11px 15px;margin-top:13px;font-size:14px}
+  .cue b{color:var(--blue)}
+  .demo{background:rgba(255,159,10,0.08);border:1px solid rgba(255,159,10,0.30);border-radius:12px;padding:11px 15px;margin-top:11px;font-size:14px}
+  .demo b{color:#b06d00}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--hair);border-radius:16px;overflow:hidden;font-size:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--hair)}
+  th{font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:0.03em}
+  tr:last-child td{border-bottom:none}
+  code{font-family:monospace;background:rgba(0,0,0,0.05);padding:1px 7px;border-radius:5px;font-size:13px}
+  .pal{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .sw{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:var(--card);border:1px solid var(--hair);border-radius:10px;padding:7px 12px}
+  .chip{width:16px;height:16px;border-radius:5px;display:inline-block}
+  @media print{
+    body{background:#fff;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .wrap{max-width:none;padding:0 16px}
+    .card,table,.hero{break-inside:avoid;box-shadow:none}
+    h2{break-after:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Deep Learning &middot; Group presentation</div>
+    <h1>Presenter Runbook</h1>
+    <p class="lede">Mode Collapse in GANs &middot; 5&ndash;10 minutes + Q&amp;A &middot; one card per presenter</p>
+  </div>
+
+  <h2>Running order &amp; timing</h2>
+  <table>
+    <tr><th>#</th><th>Section</th><th>Presenter</th><th>Time</th></tr>
+    <tr><td>1&ndash;3</td><td>Title, GAN recap, applications</td><td>Jeenal</td><td>~1.5 min</td></tr>
+    <tr><td>4&ndash;6</td><td>What collapse is, mechanism visual, our-faces demo</td><td>Rohit</td><td>~2 min</td></tr>
+    <tr><td>7</td><td>Why it happens + flavours</td><td>Sharvan</td><td>~1.25 min</td></tr>
+    <tr><td>8</td><td>How to detect + LIVE DEMO</td><td>Disha</td><td>~2 min</td></tr>
+    <tr><td>9&ndash;10</td><td>How to fix (reveal-fix demo) + takeaway</td><td>Pujan</td><td>~2 min</td></tr>
+    <tr><td>11</td><td>Q&amp;A</td><td>All &middot; Pujan fields first</td><td>remaining</td></tr>
+  </table>
+  <p style="font-size:14px;color:var(--muted);margin-top:12px"><b style="color:var(--text)">Demo driver:</b> Rohit controls the laptop throughout; speakers cue him by name. Timekeeper signals at the 8-minute mark.</p>
+
+  <h2>Per-person scripts</h2>
+
+  <div class="card p" style="--accent:var(--gen)">
+    <div class="who"><div class="av">J</div><div><div class="name">Jeenal</div><div class="role">Opener &middot; slides 1&ndash;3</div></div><div class="time">~1.5 min</div></div>
+    <ul>
+      <li>Introduce the team and topic in one line.</li>
+      <li>"A GAN is two networks: a generator that makes fakes from noise, and a discriminator that judges real vs fake. They compete &mdash; the generator tries to fool the discriminator."</li>
+      <li>"GANs power face generation, image-to-image, super-resolution, and data augmentation. Every one needs <i>variety</i> &mdash; hold onto that word."</li>
+    </ul>
+    <div class="cue"><b>Hand-off:</b> "But sometimes the generator stops making variety. Rohit?"</div>
+  </div>
+
+  <div class="card p" style="--accent:var(--disc)">
+    <div class="who"><div class="av" style="background:var(--disc)">R</div><div><div class="name">Rohit</div><div class="role">Core + demo driver &middot; slides 4&ndash;6</div></div><div class="time">~2 min</div></div>
+    <ul>
+      <li>"Mode collapse = the generator loses variety. A 'mode' is one type &mdash; say ten kinds of animal. A healthy generator makes all ten; a collapsed one makes one. Like a student who only ever draws a cat because the examiner keeps accepting it."</li>
+      <li>On the mechanism visual: "Gray bars are the real modes, violet is what the generator makes. Left, it covers all. Right, it over-pumps one and abandons the rest &mdash; it finds the easiest mode that fools the judge, the judge adapts, and it hops to another single mode instead of spreading."</li>
+      <li>On the faces slide: "Concretely &mdash; on our own faces. Ask for any of us, the collapsed model returns Sharvan every time."</li>
+    </ul>
+    <div class="cue"><b>Hand-off:</b> "So why does it get stuck? Sharvan."</div>
+  </div>
+
+  <div class="card p" style="--accent:var(--warn)">
+    <div class="who"><div class="av" style="background:var(--warn)">S</div><div><div class="name">Sharvan</div><div class="role">Why it happens &middot; slide 7</div></div><div class="time">~1.25 min</div></div>
+    <ul>
+      <li>"Three reasons it sticks: nothing in the basic loss rewards variety; the discriminator judges one sample at a time, so it can't punish 'these are all identical'; and the gradients don't push it to spread out."</li>
+      <li>"Two flavours &mdash; complete collapse is one output; partial collapse is a few types while missing many."</li>
+    </ul>
+    <div class="cue"><b>Hand-off:</b> "How do we actually catch it? Disha."</div>
+  </div>
+
+  <div class="card p" style="--accent:var(--pink)">
+    <div class="who"><div class="av" style="background:var(--pink)">D</div><div><div class="name">Disha</div><div class="role">Detect + runs the live demo &middot; slide 8</div></div><div class="time">~2 min</div></div>
+    <ul>
+      <li>"We catch it by checking diversity: eyeball the samples, count the classes, walk the noise, and watch the metrics."</li>
+      <li>"Let's watch it live."</li>
+    </ul>
+    <div class="demo"><b>Demo cue &rarr; Rohit:</b> press <code>space</code> (Collapse run). Narrate: "Early on, the animals are varied &mdash; coverage near 10/10. As we train, the cells turn orange and every one becomes a cat &mdash; coverage falls toward 1/10. Same output for very different inputs &mdash; that's collapse."</div>
+    <div class="cue"><b>Hand-off:</b> "So how do we fix it? Pujan."</div>
+  </div>
+
+  <div class="card p" style="--accent:var(--ok)">
+    <div class="who"><div class="av" style="background:var(--ok)">P</div><div><div class="name">Pujan</div><div class="role">Fix + close + leads Q&amp;A &middot; slides 9&ndash;10</div></div><div class="time">~2 min</div></div>
+    <ul>
+      <li>"The fixes force variety back: minibatch discrimination lets the discriminator see a whole batch and punish sameness; WGAN gives better gradients; PacGAN packs samples; feature matching matches real-data statistics."</li>
+      <li>"Watch what a fix does."</li>
+    </ul>
+    <div class="demo"><b>Demo cue &rarr; Rohit:</b> press <code>F</code> (Reveal the fix). Narrate: "The animals diversify again and coverage climbs back to 10/10."</div>
+    <ul style="margin-top:12px">
+      <li>Takeaway: "Mode collapse = the generator trades variety for an easy win. Catch it by measuring diversity, fix it by forcing full coverage. It's the GAN version of a poisoned response &mdash; one output regardless of input."</li>
+      <li>"Happy to take questions."</li>
+    </ul>
+  </div>
+
+  <h2>Demo controls (for Rohit)</h2>
+  <table>
+    <tr><th>Action</th><th>Key</th><th>When</th></tr>
+    <tr><td>Play / pause training</td><td><code>space</code></td><td>Disha's detect section</td></tr>
+    <tr><td>Reveal the fix</td><td><code>F</code></td><td>Pujan's fix section</td></tr>
+    <tr><td>Healthy vs Collapse run</td><td><code>H</code> / <code>C</code></td><td>if asked to compare</td></tr>
+    <tr><td>Scrub epoch manually</td><td><code>&larr; &rarr;</code></td><td>to pause on a moment</td></tr>
+    <tr><td>Reset</td><td><code>R</code></td><td>before each run</td></tr>
+  </table>
+
+  <h2>Prep timeline (D = presentation day)</h2>
+  <table>
+    <tr><th>When</th><th>Task</th><th>Owner</th></tr>
+    <tr><td>D&minus;5</td><td>Each person drafts their section + one visual</td><td>All</td></tr>
+    <tr><td>D&minus;3</td><td>Merge into one deck; wire in the live demo</td><td>Rohit</td></tr>
+    <tr><td>D&minus;2</td><td>Full run-through #1, time it, trim to fit 10 min</td><td>All</td></tr>
+    <tr><td>D&minus;1</td><td>Run-through #2 + Q&amp;A drill + <b>test the demo on the actual laptop</b></td><td>All</td></tr>
+    <tr><td>D</td><td>Arrive early, load deck + demo in separate tabs, check projector colours</td><td>All</td></tr>
+  </table>
+
+  <h2>Tech checklist</h2>
+  <ul>
+    <li>Open <code>mode_collapse_live_demo.html</code> on the presentation laptop the day before &mdash; confirm it runs offline.</li>
+    <li>Keep a 15-second screen recording of a Play&rarr;collapse&rarr;fix run as a <b>backup</b>.</li>
+    <li>Browser full-screen (F11); hide the bookmarks bar.</li>
+    <li>Slides and demo in separate tabs; rehearse the alt-tab order.</li>
+    <li>Confirm orange/green read clearly on the projector from the back of the room.</li>
+  </ul>
+
+  <h2>The animals in the demo</h2>
+  <p style="font-size:14px;color:var(--muted);margin:0 0 10px">The generator should produce these ten. When it collapses, every tile becomes the cat.</p>
+  <div class="pal">
+    <span class="sw">&#128054; dog</span>
+    <span class="sw" style="border-color:rgba(255,159,10,0.5);background:rgba(255,159,10,0.08)">&#128049; cat &middot; collapse target</span>
+    <span class="sw">&#128045; mouse</span>
+    <span class="sw">&#128048; rabbit</span>
+    <span class="sw">&#129418; fox</span>
+    <span class="sw">&#128059; bear</span>
+    <span class="sw">&#128060; panda</span>
+    <span class="sw">&#128038; bird</span>
+    <span class="sw">&#128056; frog</span>
+    <span class="sw">&#128053; monkey</span>
+  </div>
+
+  <h2>Demo storyboard (what the audience sees)</h2>
+  <table>
+    <tr><th>Epoch</th><th>On screen</th><th>Coverage</th><th>Verdict</th></tr>
+    <tr><td>0&ndash;30</td><td>Blurry, varied animals &mdash; the generator is still learning</td><td>~10/10</td><td>diverse</td></tr>
+    <tr><td>~40</td><td>Sharper, but a few cats start appearing</td><td>8&ndash;9/10</td><td>diverse</td></tr>
+    <tr><td>~70</td><td>Many tiles have turned orange / become cats</td><td>4&ndash;6/10</td><td>narrowing</td></tr>
+    <tr><td>~110</td><td>Almost every tile is a cat</td><td>1&ndash;2/10</td><td>hijacked</td></tr>
+    <tr><td>Reveal fix</td><td>Cats scatter back into varied animals</td><td>back to 10/10</td><td>recovered</td></tr>
+  </table>
+
+  <h2>Slide &harr; demo map</h2>
+  <table>
+    <tr><th>Moment</th><th>Slide</th><th>Demo action</th></tr>
+    <tr><td>Detection</td><td>8 (Disha)</td><td>Switch to the demo tab, <code>space</code> to Play the Collapse run, narrate coverage falling</td></tr>
+    <tr><td>The fix</td><td>9 (Pujan)</td><td>Press <code>F</code> to Reveal the fix, narrate coverage recovering</td></tr>
+    <tr><td>If asked to compare</td><td>any</td><td>Press <code>H</code> for a Healthy run, then <code>C</code> back to Collapse</td></tr>
+  </table>
+
+  <h2>One-line pitch (memorise it)</h2>
+  <p style="font-size:15px;color:var(--text);margin:0;background:rgba(0,113,227,0.06);border:1px solid rgba(0,113,227,0.22);border-radius:12px;padding:14px 18px">
+    "A GAN should generate every kind of animal. Mode collapse is when it gives up and returns a cat for every input &mdash; we show it happening live, then fix it."
+  </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<svg width="100%" viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg">
+  <rect x="206" y="36" width="13" height="13" rx="3" fill="#C7C7CC"/>
+  <text x="224" y="47" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">real data modes</text>
+  <rect x="330" y="36" width="13" height="13" rx="3" fill="#5E5CE6"/>
+  <text x="348" y="47" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">generator output</text>
+  <text x="182" y="84" text-anchor="middle" font-size="16" fill="#1D1D1F" font-family="-apple-system,Inter,sans-serif" font-weight="600">what we want</text>
+  <text x="182" y="102" text-anchor="middle" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">covers every mode</text>
+  <text x="492" y="84" text-anchor="middle" font-size="16" fill="#1D1D1F" font-family="-apple-system,Inter,sans-serif" font-weight="600">mode collapse</text>
+  <text x="492" y="102" text-anchor="middle" font-size="12" fill="#FF9F0A" font-family="-apple-system,Inter,sans-serif">stuck on one mode</text>
+  <rect x="73"  y="180" width="38" height="90" rx="4" fill="#C7C7CC"/>
+  <rect x="137" y="180" width="38" height="90" rx="4" fill="#C7C7CC"/>
+  <rect x="200" y="180" width="38" height="90" rx="4" fill="#C7C7CC"/>
+  <rect x="264" y="180" width="38" height="90" rx="4" fill="#C7C7CC"/>
+  <rect x="82"  y="192" width="20" height="78" rx="3" fill="#5E5CE6"/>
+  <rect x="146" y="192" width="20" height="78" rx="3" fill="#5E5CE6"/>
+  <rect x="209" y="192" width="20" height="78" rx="3" fill="#5E5CE6"/>
+  <rect x="273" y="192" width="20" height="78" rx="3" fill="#5E5CE6"/>
+  <line x1="55" y1="270" x2="315" y2="270" stroke="#C7C7CC" stroke-width="1"/>
+  <text x="92"  y="287" text-anchor="middle" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">m1</text>
+  <text x="156" y="287" text-anchor="middle" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">m2</text>
+  <text x="219" y="287" text-anchor="middle" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">m3</text>
+  <text x="283" y="287" text-anchor="middle" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">m4</text>
+  <rect x="378" y="180" width="38" height="90" rx="4" fill="#C7C7CC"/>
+  <rect x="442" y="180" width="38" height="90" rx="4" fill="#C7C7CC"/>
+  <rect x="505" y="180" width="38" height="90" rx="4" fill="#C7C7CC"/>
+  <rect x="569" y="180" width="38" height="90" rx="4" fill="#C7C7CC"/>
+  <rect x="387" y="192" width="20" height="78" rx="3" fill="none" stroke="#5E5CE6" stroke-width="1" stroke-dasharray="3 3"/>
+  <rect x="451" y="150" width="20" height="120" rx="3" fill="#5E5CE6"/>
+  <rect x="514" y="192" width="20" height="78" rx="3" fill="none" stroke="#5E5CE6" stroke-width="1" stroke-dasharray="3 3"/>
+  <rect x="578" y="192" width="20" height="78" rx="3" fill="none" stroke="#5E5CE6" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="360" y1="270" x2="620" y2="270" stroke="#C7C7CC" stroke-width="1"/>
+  <text x="397" y="287" text-anchor="middle" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">m1</text>
+  <text x="461" y="287" text-anchor="middle" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">m2</text>
+  <text x="524" y="287" text-anchor="middle" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">m3</text>
+  <text x="588" y="287" text-anchor="middle" font-size="12" fill="#86868B" font-family="-apple-system,Inter,sans-serif">m4</text>
+</svg>
