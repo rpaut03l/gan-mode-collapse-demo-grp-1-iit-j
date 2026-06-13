@@ -161,7 +161,7 @@ def mode_coverage(generator, classifier, z_dim, n=1000, device="cpu"):
 
 ---
 
-## Append this to your Kimi PDF prompt (4 new slides)
+## Append this to your PDF prompt (4 new slides)
 
 Insert these into the SLIDE CONTENT list; renumber as needed. Keep the same dark theme and violet=G / cyan=D coding.
 
